@@ -5,13 +5,15 @@ import pygame
 
 
 def load_level(filename):
-    filename = "levels/" + filename
-    with open(filename, 'r') as mapFile:
-        level_map = [line.strip() for line in mapFile]
-
-    max_width = max(map(len, level_map))
-
-    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
+    try:
+        filename = "levels/" + filename
+        with open(filename, 'r') as mapFile:
+            level_map = [line.strip() for line in mapFile]
+        max_width = max(map(len, level_map))
+        return list(map(lambda x: x.ljust(max_width, '.'), level_map))
+    except Exception as e:
+        print(e)
+        sys.exit(0)
 
 
 def load_image(name, colorkey=None):
@@ -142,9 +144,11 @@ all_sprites = pygame.sprite.Group()
 tiles_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
-player, level_x, level_y = generate_level(load_level('level1'))
+level_name = input('Введите название уровня')
 
-#camera = Camera()
+player, level_x, level_y = generate_level(load_level(level_name))
+
+# camera = Camera()
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -170,8 +174,8 @@ while running:
     all_sprites.update()
     tiles_group.update()
     player_group.update()
-    #camera.update(player)
-    #for sprite in all_sprites:
+    # camera.update(player)
+    # for sprite in all_sprites:
     #    camera.apply(sprite)
     all_sprites.draw(screen)
     player_group.draw(screen)
