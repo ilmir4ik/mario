@@ -132,7 +132,9 @@ class Camera:
 
     def apply(self, obj):
         obj.rect.x += self.dx
+        obj.rect.x %= (level_x + 1) * tile_width
         obj.rect.y += self.dy
+        obj.rect.y %= (level_y + 1) * tile_height
 
     def update(self, target):
         self.dx = -(target.rect.x + target.rect.w // 2 - WIDTH // 2)
